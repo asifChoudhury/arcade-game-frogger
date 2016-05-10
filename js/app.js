@@ -6,6 +6,9 @@ var Enemy = function(x, y, speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    // setting enemy dimensions
+    this.width = 101;
+    this.height = 72;
     // Setting the Enemy initial location
     this.x = x;
     this.y = y;
@@ -27,7 +30,19 @@ Enemy.prototype.update = function(dt) {
         this.x = this.originalX;
         this.y = this.originalY;
     }
+    if(this.checkCollisions()) {
+        player.reset();
+    }
+};
 
+Enemy.prototype.checkCollisions = function(){
+    if (this.x + this.width - 22 >= player.x &&
+        this.x + 22 <= player.x + player.width &&
+        this.y + this.height >= player.y &&
+        this.y <= player.y + player.height) {
+        return true;
+    }
+    return false;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -40,8 +55,10 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function(x, y) {
     this.sprite = 'images/char-boy.png';
-
-    //set player position
+    // setting player dimensions
+    this.width = 101;
+    this.height = 72;
+    // set player position
     this.x = x;
     this.y = y;
 
@@ -50,14 +67,16 @@ var Player = function(x, y) {
 Player.prototype.update = function (dt) {
     //handle collision
    //if won display win message and reset the player
-
-
-   //temporary..if won reset player to starting position
    if (this.y === -20) {
-        this.x = 200;
-        this.y = 395;
-   }
+        this.reset();
+    }
 }
+
+Player.prototype.reset = function(){
+    //temporary..if won reset player to starting position
+    this.x = 200;
+    this.y = 395;
+};
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -78,12 +97,15 @@ Player.prototype.handleInput = function (key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var enemy1 = new Enemy(-100, 60, 40);
-var enemy2 = new Enemy(-100, 60, 180);
-var enemy3 = new Enemy(-100, 145, 140);
-var enemy4 = new Enemy(-100, 230, 80)
+var enemy1 = new Enemy(-100, 60, 20);
+var enemy2 = new Enemy(-100, 60, 120);
+var enemy3 = new Enemy(-100, 60, 180);
+var enemy4 = new Enemy(-100, 145, 140);
+var enemy5 = new Enemy(-100, 145, 190);
+var enemy6 = new Enemy(-100, 230, 100);
+var enemy7 = new Enemy(-100, 230, 170);
 
-var allEnemies = [enemy1, enemy2, enemy3, enemy4];
+var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7];
 
 var player = new Player(200, 395);
 
