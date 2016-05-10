@@ -53,7 +53,10 @@ Player.prototype.update = function (dt) {
 
 
    //temporary..if won reset player to starting position
-
+   if (this.y === -20) {
+        this.x = 200;
+        this.y = 395;
+   }
 }
 
 Player.prototype.render = function () {
