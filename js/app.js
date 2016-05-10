@@ -53,10 +53,7 @@ Player.prototype.update = function (dt) {
 
 
    //temporary..if won reset player to starting position
-   if (this.y === -20) {
-        this.x = 200;
-        this.y = 395;
-   }
+
 }
 
 Player.prototype.render = function () {
@@ -64,7 +61,15 @@ Player.prototype.render = function () {
 }
 
 Player.prototype.handleInput = function (key) {
-
+    if (key === 'left' && this.x > 0) {
+        this.x -= 100;
+    } else if (key === 'right' && this.x < 301){
+        this.x += 100;
+    } else if (key === 'up' && this.y > 60){
+        this.y -= 83;
+    } else if (key === 'down' && this.y < 320){
+        this.y += 83;
+    }
 }
 
 // Now instantiate your objects.
