@@ -22,7 +22,7 @@ avoid collision with the bugs. The player starts with 3 lives. Your objective is
 
 ### Play
 
-**Arcade Game: Frogger** is available online [here](asifchoudhury.github.io/arcade-game-frogger).
+**Arcade Game: Frogger** is available online [here](https://asifchoudhury.github.io/arcade-game-frogger).
 
 
 
