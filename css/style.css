@@ -1,3 +1,20 @@
 body {
     text-align: center;
+    background-color: #262726;
+    font-family: 'Orbitron', sans-serif;
+    color:white;
+}
+
+h1 {
+    font-size: 40px;
+    font-style: 400;
+    color: #EC4A4A;
+}
+
+h4 {
+    color: #C53737;
+}
+
+h2 {
+    color: #E47474;
 }
