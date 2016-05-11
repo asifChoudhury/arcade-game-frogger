@@ -1,3 +1,12 @@
+const CHARACTER_WIDTH = 101;
+const CHARACTER_HEIGHT = 72;
+const CANVAS_BORDER = 650;
+const OFFSET_X = 100;
+const OFFSET_Y = 83;
+const OFFSET_SCORE = 100;
+const NUM_ROWS = 5;
+const PLAYER_LIVES = 3;
+const OFFSET_ENEMY = 22;
 /*
  * Enemy Class.
  */
@@ -5,8 +14,8 @@ var Enemy = function(x, y, speed) {
     // The image/sprite for our enemies.
     this.sprite = 'images/enemy-bug.png';
     // setting enemy dimensions.
-    this.width = 101;
-    this.height = 72;
+    this.width = CHARACTER_WIDTH;
+    this.height = CHARACTER_HEIGHT;
     // Setting the Enemy initial location.
     this.x = x;
     this.y = y;
@@ -26,7 +35,7 @@ Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
 
     // When the enemies hit the canvas border ..reset their position.
-    if (this.x >= 650) {
+    if (this.x >= CANVAS_BORDER) {
         this.x = this.originalX;
         this.y = this.originalY;
     }
@@ -38,13 +47,13 @@ Enemy.prototype.update = function(dt) {
 
         // When there's a collision player should not get points for moving into the tile.
         // So the added score is removed and updated.
-        player.score -= 100;
+        player.score -= OFFSET_SCORE;
 
         // When player has no lives left..display game over message and reset the lives and the score.
         if(player.lives === 0) {
             alert("Out of lives!\n\n" + "Score: " + player.score);
             document.location.reload();
-            player.lives = 3;
+            player.lives = PLAYER_LIVES;
             player.score = 0;
         }
 
@@ -58,8 +67,8 @@ Enemy.prototype.update = function(dt) {
  * Return true if there's a collision.
  */
 Enemy.prototype.checkCollisions = function() {
-    if (this.x + this.width - 22 >= player.x &&
-        this.x + 22 <= player.x + player.width &&
+    if (this.x + this.width - OFFSET_ENEMY >= player.x &&
+        this.x + OFFSET_ENEMY <= player.x + player.width &&
         this.y + this.height >= player.y &&
         this.y <= player.y + player.height) {
 
@@ -82,19 +91,23 @@ var Player = function(x, y) {
     this.sprite = 'images/char-horn-girl.png';
 
     // Setting player dimensions.
-    this.width = 101;
-    this.height = 72;
+    this.width = CHARACTER_WIDTH;
+    this.height = CHARACTER_HEIGHT;
 
     // Set player position.
     this.x = x;
     this.y = y;
 
+    //save the co-ordinates so the player position can be reset.
+    this.originalX = x;
+    this.originalY = y;
+
     // Setting score.
-    this.row = 5;
+    this.row = NUM_ROWS;
     this.score = 0;
 
     //Setting lives for player.
-    this.lives = 3;
+    this.lives = PLAYER_LIVES;
 };
 
 /*
@@ -110,9 +123,9 @@ Player.prototype.update = function(dt) {
  * Reset the player to original location.
  */
 Player.prototype.reset = function() {
-    this.x = 200;
-    this.y = 400;
-    this.row = 5;
+    this.x = this.originalX;
+    this.y = this.originalY;
+    this.row = NUM_ROWS;
 };
 
 /*
@@ -143,23 +156,23 @@ Player.prototype.render = function() {
  */
 Player.prototype.handleInput = function(key) {
     if (key === 'left' && this.x > 0) {
-        this.x -= 100;
+        this.x -= OFFSET_X;
 
         //Update the score.
         this.scoreUpdate();
     } else if (key === 'right' && this.x < 301){
-        this.x += 100;
+        this.x += OFFSET_X;
 
         //Update the score.
         this.scoreUpdate();
     } else if (key === 'up' && this.y > 60){
-        this.y -= 83;
+        this.y -= OFFSET_Y;
         this.row--;
 
         //Update the score.
         this.scoreUpdate();
     } else if (key === 'down' && this.y < 320){
-        this.y += 83;
+        this.y += OFFSET_Y;
         this.row++;
 
         //Update the score.
@@ -172,7 +185,7 @@ Player.prototype.handleInput = function(key) {
  */
 Player.prototype.scoreUpdate = function() {
     if (this.row > 0 && this.row < 4) {
-        this.score += 100;
+        this.score += OFFSET_SCORE;
     }
 };
 
