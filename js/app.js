@@ -40,8 +40,10 @@ Enemy.prototype.update = function( dt ) {
         // So the added score is removed and updated.
         player.score -= 100;
 
-        // When player has no lives left reset the lives and the score.
+        // When player has no lives left..display game over message and reset the lives and the score.
         if(player.lives === 0) {
+            alert("GAME OVER!\n Try Again!");
+            document.location.reload();
             player.lives = 3;
             player.score = 0;
         }
@@ -124,10 +126,13 @@ Player.prototype.render = function() {
     gradient.addColorStop( "0", "magenta" );
     gradient.addColorStop( "0.5", "blue" );
     gradient.addColorStop( "1.0", "red" );
+
     // Fill with gradient.
     ctx.fillStyle = gradient;
     ctx.font = '30pt Impact';
     ctx.fillText( "Score: " + this.score, 295, 110 );
+
+    // Draw lives.
     ctx.fillStyle = '#E47474';
     ctx.fillText( "Lives: " + this.lives, 15, 110 );
 }
