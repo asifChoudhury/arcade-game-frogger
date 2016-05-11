@@ -4,14 +4,14 @@ The game has been developed to showcase a better understanding of Object-oriente
 
 
 
-## Characters:
+### Characters:
 
     * Enemy bugs
     * Cute girl with the horn
 
 
 
-## How to play:
+### How to play:
 
 * Gameplay is fairly simple. Use the arrow keys on your keyboard to navigate your player and
 avoid collision with the bugs. The player starts with 3 lives. Your objective is to avoid collision and rack up as many points as you can until you are out of lives.
@@ -20,13 +20,13 @@ avoid collision with the bugs. The player starts with 3 lives. Your objective is
 
 
 
-## Play
+### Play
 
 **Arcade Game: Frogger** is available online at **asifchoudhury.github.io/frontend-nanodegree-arcade-game**
 
 
 
-## Soundtrack
+### Soundtrack
 
 The soundtrack is from the classic arcade game "King Kong 2".
 
