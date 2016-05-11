@@ -33,12 +33,20 @@ Enemy.prototype.update = function( dt ) {
 
     // If there's a collision, reset the player.
     if ( this.checkCollisions() ) {
-        if(player.lives )
+        // If there's a collision, player looses a life.
         player.lives--;
 
+        // When there's a collision player should not get points for moving into the tile.
+        // So the added score is removed and updated.
+        player.score -= 100;
+
+        // When player has no lives left reset the lives and the score.
         if(player.lives === 0) {
-            player.lives = 0;
+            player.lives = 3;
+            player.score = 0;
         }
+
+        // Reset the player to initial position.
         player.reset();
     }
 };
@@ -101,8 +109,7 @@ Player.prototype.update = function( dt ) {
  */
 Player.prototype.reset = function() {
     this.x = 200;
-    this.y = 395;
-    this.score = 0;
+    this.y = 400;
     this.row = 5;
 };
 
@@ -177,7 +184,7 @@ var enemy7 = new Enemy( -100, 230, 170 );
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7];
 
 //Instantiate player.
-var player = new Player ( 200, 395 );
+var player = new Player ( 200, 400 );
 
 /*
  * Listens for key presses and sends the keys to
