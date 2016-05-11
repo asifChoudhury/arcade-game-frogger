@@ -6,8 +6,8 @@ The game has been developed to showcase a better understanding of Object-oriente
 
 ### Characters:
 
-    * Enemy bugs
-    * Cute girl with the horn
+* Enemy bugs
+* Cute girl with the horn
 
 
 
@@ -22,7 +22,7 @@ avoid collision with the bugs. The player starts with 3 lives. Your objective is
 
 ### Play
 
-**Arcade Game: Frogger** is available online at **asifchoudhury.github.io/frontend-nanodegree-arcade-game**
+**Arcade Game: Frogger** is available online [here](asifchoudhury.github.io/frontend-nanodegree-arcade-game).
 
 
 
