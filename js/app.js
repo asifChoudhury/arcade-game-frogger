@@ -117,7 +117,7 @@ Player.prototype.update = function(dt) {
     if (this.y < 60) {
         this.reset();
     }
-}
+};
 
 /*
  * Reset the player to original location.
@@ -148,7 +148,7 @@ Player.prototype.render = function() {
     // Draw lives.
     ctx.fillStyle = '#E47474';
     ctx.fillText("Lives: " + this.lives, 15, 110);
-}
+};
 
 /*
  * Handle user input and uodate player position.
@@ -178,7 +178,7 @@ Player.prototype.handleInput = function(key) {
         //Update the score.
         this.scoreUpdate();
     }
-}
+};
 
 /*
  * Updates the score when the player is on the stone pavement and moves.
