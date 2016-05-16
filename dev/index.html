@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>Arcade Game: Frogger</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <audio autoplay="" loop="" id="player" src="audio/king kong 2.mp3"></audio>
+    <header>
+        <h1>Arcade Game: Frogger</h1>
+        <h4>Developed By</h4>
+        <h2>Md Asif Choudhury</h2>
+    </header>
+    <script src="js/resources.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/engine.js"></script>
+    <script>
+        WebFontConfig = {
+            google: {
+                families: ['Orbitron :400']
+            }
+        };
+
+       (function(d) {
+          var wf = d.createElement('script'), s = d.scripts[0];
+          wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js';
+          s.parentNode.insertBefore(wf, s);
+       })(document);
+    </script>
+    <footer>
+        <h3 class="instructions">Start playing by using the arrow signs (up, down , left , right) on your keyboard.</h3>
+        <h3 class="instructions">Avoid collision with the bugs.</h3>
+    </footer>
+</body>
+</html>

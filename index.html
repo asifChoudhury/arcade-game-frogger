@@ -1,24 +1,269 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Arcade Game: Frogger</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
-</head>
-<body>
-    <audio autoplay="" loop="" id="player" src="audio/king kong 2.mp3"></audio>
-    <header>
-        <h1>Arcade Game: Frogger</h1>
-        <h4>Developed By</h4>
-        <h2>Md Asif Choudhury</h2>
-    </header>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
-    <footer>
-        <h3 class="instructions">Start playing by using the arrow signs (up, down , left , right) on your keyboard.</h3>
-        <h3 class="instructions">Avoid collision with the bugs.</h3>
-    </footer>
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arcade Game: Frogger</title><style>body {
+            text-align: center;
+            background-color: #262726;
+            font-family: 'Orbitron', sans-serif;
+            color:white;
+        }
+        h1 {
+            font-size: 40px;
+            font-style: 400;
+            color: #EC4A4A;
+        }
+        h4 {
+            color: #C53737;
+        }
+        h2 {
+            color: #E47474;
+        }
+        .instructions {
+            color: #B78F46;
+        }</style></head><body><audio autoplay="" loop="" id="player" src="audio/king kong 2.mp3"></audio><header><h1>Arcade Game: Frogger</h1><h3>Developed By</h3><h2>Md Asif Choudhury</h2><script>(function () {
+            var resourceCache = {};
+            var loading = [];
+            var readyCallbacks = [];
+            function load(urlOrArr) {
+                if (urlOrArr instanceof Array) {
+                    urlOrArr.forEach(function (url) {
+                        _load(url);
+                    });
+                } else {
+                    _load(urlOrArr);
+                }
+            }
+            function _load(url) {
+                if (resourceCache[url]) {
+                    return resourceCache[url];
+                } else {
+                    var img = new Image();
+                    img.onload = function () {
+                        resourceCache[url] = img;
+                        if (isReady()) {
+                            readyCallbacks.forEach(function (func) {
+                                func();
+                            });
+                        }
+                    };
+                    resourceCache[url] = false;
+                    img.src = url;
+                }
+            }
+            function get(url) {
+                return resourceCache[url];
+            }
+            function isReady() {
+                var ready = true;
+                for(var k in resourceCache) {
+                    if(resourceCache.hasOwnProperty(k) && !resourceCache[k]) {
+                        ready = false;
+                    }
+                }
+                return ready;
+            }
+            function onReady(func) {
+                readyCallbacks.push(func);
+            }
+            window.Resources = {
+                load: load,
+                get: get,
+                onReady: onReady,
+                isReady: isReady
+            };
+        })();</script><script>const CHARACTER_WIDTH = 101;
+        const CHARACTER_HEIGHT = 72;
+        const CANVAS_BORDER = 650;
+        const OFFSET_X = 100;
+        const OFFSET_Y = 83;
+        const OFFSET_SCORE = 100;
+        const NUM_ROWS = 5;
+        const PLAYER_LIVES = 3;
+        const OFFSET_ENEMY = 22;
+        var Enemy = function(x, y, speed) {
+            this.sprite = 'images/compressed/enemy-bug.png';
+            this.width = CHARACTER_WIDTH;
+            this.height = CHARACTER_HEIGHT;
+            this.x = x;
+            this.y = y;
+            this.originalX = x;
+            this.originalY = y;
+            this.speed = speed;
+        };
+        Enemy.prototype.update = function(dt) {
+            this.x += this.speed * dt;
+            if (this.x >= CANVAS_BORDER) {
+                this.x = this.originalX;
+                this.y = this.originalY;
+            }
+            if (this.checkCollisions()) {
+                player.lives--;
+                player.score -= OFFSET_SCORE;
+                if(player.lives === 0) {
+                    alert("Out of lives!\n\n" + "Score: " + player.score);
+                    document.location.reload();
+                    player.lives = PLAYER_LIVES;
+                    player.score = 0;
+                }
+                player.reset();
+            }
+        };
+        Enemy.prototype.checkCollisions = function() {
+            if (this.x + this.width - OFFSET_ENEMY >= player.x &&
+                this.x + OFFSET_ENEMY <= player.x + player.width &&
+                this.y + this.height >= player.y &&
+                this.y <= player.y + player.height) {
+                return true;
+            }
+            return false;
+        };
+        Enemy.prototype.render = function() {
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        };
+        var Player = function(x, y) {
+            this.sprite = 'images/compressed/char-horn-girl.png';
+            this.width = CHARACTER_WIDTH;
+            this.height = CHARACTER_HEIGHT;
+            this.x = x;
+            this.y = y;
+            this.originalX = x;
+            this.originalY = y;
+            this.row = NUM_ROWS;
+            this.score = 0;
+            this.lives = PLAYER_LIVES;
+        };
+        Player.prototype.update = function(dt) {
+            if (this.y < 60) {
+                this.reset();
+            }
+        };
+        Player.prototype.reset = function() {
+            this.x = this.originalX;
+            this.y = this.originalY;
+            this.row = NUM_ROWS;
+        };
+        Player.prototype.render = function() {
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+            var gradient = ctx.createLinearGradient(0, 0, 500, 0);
+            gradient.addColorStop("0", "magenta");
+            gradient.addColorStop("0.5", "blue");
+            gradient.addColorStop("1.0", "red");
+            ctx.fillStyle = gradient;
+            ctx.font = '30pt Impact';
+            ctx.fillText("Score: " + this.score, 295, 110);
+            ctx.fillStyle = '#E47474';
+            ctx.fillText("Lives: " + this.lives, 15, 110);
+        };
+        Player.prototype.handleInput = function(key) {
+            if (key === 'left' && this.x > 0) {
+                this.x -= OFFSET_X;
+                this.scoreUpdate();
+            } else if (key === 'right' && this.x < 301){
+                this.x += OFFSET_X;
+                this.scoreUpdate();
+            } else if (key === 'up' && this.y > 60){
+                this.y -= OFFSET_Y;
+                this.row--;
+                this.scoreUpdate();
+            } else if (key === 'down' && this.y < 320){
+                this.y += OFFSET_Y;
+                this.row++;
+                this.scoreUpdate();
+            }
+        };
+        Player.prototype.scoreUpdate = function() {
+            if (this.row > 0 && this.row < 4) {
+                this.score += OFFSET_SCORE;
+            }
+        };
+        var enemy1 = new Enemy(-100, 60, 20);
+        var enemy2 = new Enemy(-100, 60, 120);
+        var enemy3 = new Enemy(-100, 60, 180);
+        var enemy4 = new Enemy(-100, 145, 140);
+        var enemy5 = new Enemy(-100, 145, 190);
+        var enemy6 = new Enemy(-100, 230, 100);
+        var enemy7 = new Enemy(-100, 230, 170);
+        var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7];
+        var player = new Player(200, 400);
+        document.addEventListener('keyup', function(e) {
+            var allowedKeys = {
+                37: 'left',
+                38: 'up',
+                39: 'right',
+                40: 'down'
+            };
+            player.handleInput(allowedKeys[e.keyCode]);
+        });</script><script>var Engine = (function(global) {
+            var doc = global.document,
+                win = global.window,
+                canvas = doc.createElement('canvas'),
+                ctx = canvas.getContext('2d'),
+                lastTime;
+            canvas.width = 505;
+            canvas.height = 606;
+            doc.body.appendChild(canvas);
+            function main() {
+                var now = Date.now(),
+                dt = (now - lastTime) / 1000.0;
+                update(dt);
+                render();
+                lastTime = now;
+                win.requestAnimationFrame(main);
+            }
+            function init() {
+                reset();
+                lastTime = Date.now();
+                main();
+            }
+            function update(dt) {
+                updateEntities(dt);
+            }
+            function updateEntities(dt) {
+                allEnemies.forEach(function(enemy) {
+                    enemy.update(dt);
+                });
+                player.update();
+            }
+            function render() {
+                var rowImages = [
+                        'images/compressed/water-block.png',   // Top row is water
+                        'images/compressed/stone-block.png',   // Row 1 of 3 of stone
+                        'images/compressed/stone-block.png',   // Row 2 of 3 of stone
+                        'images/compressed/stone-block.png',   // Row 3 of 3 of stone
+                        'images/compressed/grass-block.png',   // Row 1 of 2 of grass
+                        'images/compressed/grass-block.png'    // Row 2 of 2 of grass
+                    ],
+                    numRows = 6,
+                    numCols = 5,
+                    row, col;
+                for (row = 0; row < numRows; row++) {
+                    for (col = 0; col < numCols; col++) {
+                        ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                    }
+                }
+                renderEntities();
+            }
+            function renderEntities() {
+                allEnemies.forEach(function(enemy) {
+                    enemy.render();
+                });
+                player.render();
+            }
+            function reset() {
+            }
+            Resources.load([
+                'images/compressed/stone-block.png',
+                'images/compressed/water-block.png',
+                'images/compressed/grass-block.png',
+                'images/compressed/enemy-bug.png',
+                'images/compressed/char-horn-girl.png'
+            ]);
+            Resources.onReady(init);
+            global.ctx = ctx;
+        })(this);</script><script>WebFontConfig = {
+            google: {
+                families: ['Orbitron :400']
+            }
+        };
+       (function(d) {
+          var wf = d.createElement('script'), s = d.scripts[0];
+          wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js';
+          s.parentNode.insertBefore(wf, s);
+       })(document);</script></header><footer><h2 class="instructions">Start playing by using the arrow signs (up, down , left , right) on your keyboard.</h2><h2 class="instructions">Avoid collision with the bugs.</h2></footer></body></html>

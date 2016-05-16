@@ -1,0 +1,24 @@
+{
+  "name": "arcade-game-frogger",
+  "version": "1.0.0",
+  "description": "The game has been developed to showcase a better understanding of Object-oriented Javascript and HTML5 Canvas. It has been a lot of fun developing this game.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asifChoudhury/arcade-game-frogger.git"
+  },
+  "author": "md asif choudhury",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asifChoudhury/arcade-game-frogger/issues"
+  },
+  "homepage": "https://github.com/asifChoudhury/arcade-game-frogger#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-htmlmin": "^1.4.0"
+  }
+}
